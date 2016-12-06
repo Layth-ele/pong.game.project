@@ -1,11 +1,12 @@
 export default class Paddle {
-   constructor(height, x ,control) {
+   constructor(height, x, control, score) {
       this.width = 5;
       this.height = 35;
       this.x = x;
       this.y = (height / 2) - (this.height / 2);
       this.speed = 15;
       this.maxHight = height;
+      this.score = score;
 
       document.addEventListener('keydown', event => {
            switch (event.keyCode) {
@@ -14,24 +15,26 @@ export default class Paddle {
                        0,
                        this.y - this.speed
                    );
-                   console.log('up');
                    break;
                case control.down:
                    this.y = Math.min(
                        this.maxHeight - this.height,
                        this.y + this.speed
                    );
-                   console.log('down');
                    break;
            }
        });
+   }
+   addScore(player1, player2) {
+        this.score.score++;
+        victorySound.play();
+    }
 
-   }
-   render(ctx) { // What is ctx? Where does it come from?
-     ctx.fillStyle = 'grey';
-      ctx.fillRect(
-         this.x, this.y,
-         this.width, this.height
-      );
-   }
+    render(ctx) {
+        ctx.fillStyle = 'grey';
+        ctx.fillRect(
+            this.x, this.y,
+            this.width, this.height
+        );
+    }
 }

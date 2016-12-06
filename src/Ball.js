@@ -1,11 +1,10 @@
 const size = 5;
-const speed = 50;
 export default class Ball {
    constructor(height,width) {
-      this.x = 50; // random x
-      this.y = 50; // random y
+      this.x = width / 2 // random x
+      this.y = height / 2; // random y
       this.vy = Math.floor(Math.random() * 12 - 6);
-      this.vx = (7 - Math.abs(this.vy));
+      this.vx = (7 - Math.abs(this.vy)-7);
       this.size = size ;
       this.height = height;
       this.width = width;
@@ -20,8 +19,8 @@ export default class Ball {
   }
 
   wallbounce(){
-    const hitLeft = this.x>=this.width;
-    const hitRight = this.x+this.size<0;
+    const hitLeft = this.x >= this.width;
+    const hitRight = this.x + this.size <0;
     const hitTop = this.y + this.size <= 0;
     const hitBottom = this.y >= this.height;
 
@@ -33,6 +32,8 @@ export default class Ball {
 
     }
   }
+
+
   paddleCollision(player1, player2) {
 if (this.vx > 0) {
 const inRightEnd = player2.x <= this.x + this.size &&
@@ -64,13 +65,22 @@ this.vx = -this.vx;
 }
 }
 
-render(ctx,player1,player2){
-  this.paddleCollision(player1,player2);
-  this.wallbounce();
-  this.x +=this.vx;
-  this.y +=this.vy;
-  this.draw(ctx);
+render({ctx, player1, player2, height, width}) {
+        this.draw(ctx);
+        this.paddleCollision(player1, player2);
+        this.wallbounce();
+        this.x += this.vx;
+        this.y += this.vy;
 
+        if (this.x <= 0) {
+            player2.addScore();
+            this.goal(width, height);
+        }
+        else if (this.x >= width) {
+            player1.addScore();
+            this.goal(width, height);
+        }
 
-}
+    }
+
 }

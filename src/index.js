@@ -1,4 +1,4 @@
-import './Game.css'
+import './game.css'
 import Game from './Game';
 
 var game = new Game();
